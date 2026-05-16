@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
@@ -18,59 +18,64 @@ export default function App() {
     <>
       {user && <Header />}
 
-      <main className={user ? "container" : ""}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+      <Routes>
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/" replace /> : <Login />}
+        />
 
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/" replace /> : <Register />}
+        />
 
-          <Route
-            path="/posts"
-            element={
-              <ProtectedRoute>
-                <PostList />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/posts/new"
-            element={
-              <ProtectedRoute>
-                <PostCreate />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/posts"
+          element={
+            <ProtectedRoute>
+              <PostList />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/posts/:id"
-            element={
-              <ProtectedRoute>
-                <PostView />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/posts/new"
+          element={
+            <ProtectedRoute>
+              <PostCreate />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/posts/:id/edit"
-            element={
-              <ProtectedRoute>
-                <PostEdit />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/posts/:id"
+          element={
+            <ProtectedRoute>
+              <PostView />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+        <Route
+          path="/posts/:id/edit"
+          element={
+            <ProtectedRoute>
+              <PostEdit />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
