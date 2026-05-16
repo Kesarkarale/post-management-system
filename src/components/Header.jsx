@@ -19,9 +19,11 @@ export default function Header() {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      background: "rgba(2,6,23,.86)",
+      gap: 18,
+      background: "rgba(2,6,23,.90)",
       backdropFilter: "blur(18px)",
-      borderBottom: "1px solid rgba(148,163,184,.14)"
+      borderBottom: "1px solid rgba(148,163,184,.14)",
+      fontFamily: "Inter, Arial, sans-serif"
     },
     logo: {
       fontSize: 26,
@@ -30,12 +32,17 @@ export default function Header() {
       textDecoration: "none"
     },
     logoSpan: { color: "#22d3ee" },
-    nav: { display: "flex", gap: 18, alignItems: "center", flexWrap: "wrap" },
-    link: {
-      color: "#94a3b8",
+    nav: {
+      display: "flex",
+      gap: 18,
+      alignItems: "center",
+      flexWrap: "wrap"
+    },
+    link: ({ isActive }) => ({
+      color: isActive ? "#22d3ee" : "#94a3b8",
       textDecoration: "none",
       fontWeight: 800
-    },
+    }),
     create: {
       background: "linear-gradient(135deg,#0891b2,#14b8a6)",
       padding: "11px 16px",
@@ -44,7 +51,17 @@ export default function Header() {
       textDecoration: "none",
       fontWeight: 900
     },
-    userBox: { display: "flex", gap: 12, alignItems: "center", color: "#cbd5e1" },
+    userBox: {
+      display: "flex",
+      gap: 12,
+      alignItems: "center",
+      color: "#cbd5e1",
+      fontWeight: 800
+    },
+    email: {
+      color: "#64748b",
+      fontSize: 13
+    },
     logout: {
       border: "1px solid rgba(248,113,113,.28)",
       background: "rgba(127,29,29,.28)",
@@ -58,7 +75,9 @@ export default function Header() {
 
   return (
     <header style={s.header}>
-      <Link to="/" style={s.logo}>Post<span style={s.logoSpan}>Pilot</span></Link>
+      <Link to="/" style={s.logo}>
+        Post<span style={s.logoSpan}>Pilot</span>
+      </Link>
 
       <nav style={s.nav}>
         <NavLink to="/" style={s.link}>Dashboard</NavLink>
@@ -67,8 +86,13 @@ export default function Header() {
       </nav>
 
       <div style={s.userBox}>
-        <span>{user?.name}</span>
-        <button style={s.logout} onClick={handleLogout}>Logout</button>
+        <div>
+          <div>{user?.name}</div>
+          <div style={s.email}>{user?.email}</div>
+        </div>
+        <button style={s.logout} onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </header>
   );
