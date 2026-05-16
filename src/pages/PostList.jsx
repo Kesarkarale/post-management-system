@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 import PostCard from "../components/PostCard";
+import ConfirmModal from "../components/ConfirmModal";
+import Toast from "../components/Toast";
 
 export default function PostList() {
   const [posts, setPosts] = useLocalStorage("posts");
@@ -10,6 +12,8 @@ export default function PostList() {
   const [tag, setTag] = useState("all");
   const [sort, setSort] = useState("newest");
   const navigate = useNavigate();
+  const [deleteId, setDeleteId] = useState(null);
+const [toast, setToast] = useState("");
 
   const authors = ["all", ...new Set(posts.map((p) => p.author))];
   const tags = ["all", ...new Set(posts.flatMap((p) => p.tags))];
@@ -29,10 +33,14 @@ export default function PostList() {
   });
 
   function deletePost(id) {
-    if (confirm("Are you sure you want to delete this post?")) {
-      setPosts(posts.filter((p) => p.id !== id));
-    }
-  }
+  setDeleteId(id);
+}
+
+function confirmDelete() {
+  setPosts(posts.filter((p) => p.id !== deleteId));
+  setDeleteId(null);
+  setToast("Post deleted successfully");
+}
 
   const s = {
     wrap: {
@@ -164,11 +172,11 @@ export default function PostList() {
       ) : (
         <section style={s.grid}>
           {filtered.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              onDelete={() => deletePost(post.id)}
-            />
+           <PostCard
+  key={post.id}
+  post={post}
+  onDelete={() => deletePost(post.id)}
+/>
           ))}
         </section>
       )}
@@ -176,6 +184,18 @@ export default function PostList() {
       <button style={s.fab} onClick={() => navigate("/posts/new")}>
         +
       </button>
+      <ConfirmModal
+  open={!!deleteId}
+  title="Delete Post"
+  message="Are you sure you want to permanently delete this post?"
+  onCancel={() => setDeleteId(null)}
+  onConfirm={confirmDelete}
+/>
+
+<Toast
+  message={toast}
+  onClose={() => setToast("")}
+/>
     </main>
   );
 }
