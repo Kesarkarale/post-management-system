@@ -118,7 +118,17 @@ export default function PostList() {
       </section>
 
       {filtered.length === 0 ? (
-        <div style={s.empty}>No posts found.</div>
+       <div style={{
+  textAlign:"center",
+  padding:50,
+  borderRadius:22,
+  background:"rgba(15,23,42,.78)",
+  color:"#94a3b8"
+}}>
+  <h2 style={{color:"#fff"}}>No Posts Found</h2>
+
+  <p>Try changing your filters or create a new post.</p>
+</div>
       ) : (
         <section style={s.grid}>
           {filtered.map((post) => (
