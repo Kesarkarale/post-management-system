@@ -578,3 +578,298 @@ textarea:focus {
     justify-content: center;
   }
 }
+/* ===== GLOBAL ANIMATIONS ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.hero,
+.postCard,
+.statCard,
+.dashPanel,
+.authCard,
+.pageBox,
+.detailsBox,
+.modalBox {
+  animation: floatUp 0.7s ease;
+}
+
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== GLOW EFFECTS ===== */
+
+.hero::before,
+.authCard::before,
+.postCard::before,
+.dashPanel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.6),
+    rgba(168, 85, 247, 0.5),
+    rgba(236, 72, 153, 0.4)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.hero,
+.authCard,
+.postCard,
+.dashPanel {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== HERO ANIMATION ===== */
+
+.hero {
+  background-size: 300% 300%;
+  animation:
+    gradientMove 8s ease infinite,
+    floatUp 0.7s ease;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: left top;
+  }
+
+  50% {
+    background-position: right bottom;
+  }
+
+  100% {
+    background-position: left top;
+  }
+}
+
+/* ===== BUTTON ANIMATIONS ===== */
+
+.primaryBtn,
+.primaryLink,
+.createBtn,
+.quickActions a,
+.actions a,
+.actions button,
+.pagination button,
+.userBox button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.primaryBtn:hover,
+.primaryLink:hover,
+.createBtn:hover,
+.quickActions a:hover,
+.actions a:hover,
+.actions button:hover,
+.pagination button:hover,
+.userBox button:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 35px rgba(99, 102, 241, 0.35);
+}
+
+/* ===== CARD HOVER ===== */
+
+.postCard:hover,
+.statCard:hover,
+.dashPanel:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(99, 102, 241, 0.18);
+}
+
+/* ===== INPUT EFFECTS ===== */
+
+input,
+textarea,
+select {
+  transition:
+    border-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  transform: scale(1.01);
+}
+
+/* ===== NAVBAR ANIMATION ===== */
+
+.header {
+  animation: slideDown 0.6s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+nav a {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  transition: width 0.25s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+
+/* ===== LOGO ANIMATION ===== */
+
+.logo {
+  animation: glowPulse 3s ease infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(96, 165, 250, 0));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.7));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 0 rgba(96, 165, 250, 0));
+  }
+}
+
+/* ===== TOAST ANIMATION ===== */
+
+.toast {
+  animation:
+    toastIn 0.35s ease,
+    toastFloat 2s ease infinite alternate;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastFloat {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* ===== TAG FLOAT ===== */
+
+.tags span {
+  transition:
+    transform 0.2s ease,
+    background 0.25s ease;
+}
+
+.tags span:hover {
+  transform: translateY(-3px);
+  background: rgba(96, 165, 250, 0.25);
+}
+
+/* ===== EMPTY STATE ===== */
+
+.empty {
+  animation: pulseBox 2.5s ease infinite;
+}
+
+@keyframes pulseBox {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.015);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===== SCROLLBAR ===== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border-radius: 999px;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 700px) {
+  .hero h1,
+  .authCard h1 {
+    font-size: 32px;
+  }
+
+  .postCard:hover,
+  .statCard:hover,
+  .dashPanel:hover {
+    transform: none;
+  }
+}
