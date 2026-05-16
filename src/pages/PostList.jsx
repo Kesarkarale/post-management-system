@@ -126,6 +126,24 @@ export default function PostList() {
           ))}
         </section>
       )}
+      <button
+style={{
+  position:"fixed",
+  right:28,
+  bottom:28,
+  width:65,
+  height:65,
+  borderRadius:"50%",
+  border:"none",
+  background:"linear-gradient(135deg,#0891b2,#14b8a6)",
+  color:"#fff",
+  fontSize:32,
+  cursor:"pointer",
+  boxShadow:"0 20px 40px rgba(20,184,166,.3)"
+}}
+>
++
+</button>
     </main>
   );
 }
