@@ -20,7 +20,7 @@ export default function PostCard({ post, onDelete }) {
       <div className="actions">
         <Link to={`/posts/${post.id}`}>View</Link>
         <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-        <button onClick={() => onDelete(post.id)}>Delete</button>
+<button onClick={onDelete}>Delete</button>
       </div>
     </article>
   );
