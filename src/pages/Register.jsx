@@ -34,6 +34,9 @@ export default function Register() {
 
   return (
     <section className="authPage">
+      <div className="bgBlur blur1"></div>
+<div className="bgBlur blur2"></div>
+<div className="bgBlur blur3"></div>
       <div className="authCard">
         <p className="eyebrow">Create Account</p>
         <h1>Register on PostPilot</h1>
