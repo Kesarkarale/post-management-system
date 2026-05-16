@@ -12,8 +12,7 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Link to="/" className="logo">PostPilot</Link>
-
+<Link to="/" className="logo">🚀 PostPilot</Link>
       <nav>
         <NavLink to="/">Dashboard</NavLink>
         <NavLink to="/posts">Posts</NavLink>
