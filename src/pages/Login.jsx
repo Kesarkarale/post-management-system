@@ -24,6 +24,9 @@ export default function Login() {
 
   return (
     <section className="authPage">
+      <div className="bgBlur blur1"></div>
+<div className="bgBlur blur2"></div>
+<div className="bgBlur blur3"></div>
       <div className="authCard">
         <p className="eyebrow">Welcome Back</p>
         <h1>Login to PostPilot</h1>
