@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 import PostCard from "../components/PostCard";
 
@@ -8,6 +9,7 @@ export default function PostList() {
   const [author, setAuthor] = useState("all");
   const [tag, setTag] = useState("all");
   const [sort, setSort] = useState("newest");
+  const navigate = useNavigate();
 
   const authors = ["all", ...new Set(posts.map((p) => p.author))];
   const tags = ["all", ...new Set(posts.flatMap((p) => p.tags))];
@@ -43,7 +45,8 @@ export default function PostList() {
       padding: 48,
       borderRadius: 26,
       marginBottom: 26,
-      background: "linear-gradient(135deg,rgba(8,145,178,.16),rgba(20,184,166,.1)),rgba(15,23,42,.76)",
+      background:
+        "linear-gradient(135deg,rgba(8,145,178,.16),rgba(20,184,166,.1)),rgba(15,23,42,.76)",
       border: "1px solid rgba(148,163,184,.14)",
       boxShadow: "0 25px 55px rgba(0,0,0,.28)"
     },
@@ -79,10 +82,24 @@ export default function PostList() {
     },
     empty: {
       textAlign: "center",
-      padding: 30,
+      padding: 50,
       borderRadius: 22,
       background: "rgba(15,23,42,.78)",
       color: "#94a3b8"
+    },
+    fab: {
+      position: "fixed",
+      right: 28,
+      bottom: 28,
+      width: 65,
+      height: 65,
+      borderRadius: "50%",
+      border: "none",
+      background: "linear-gradient(135deg,#0891b2,#14b8a6)",
+      color: "#fff",
+      fontSize: 32,
+      cursor: "pointer",
+      boxShadow: "0 20px 40px rgba(20,184,166,.3)"
     }
   };
 
@@ -91,19 +108,33 @@ export default function PostList() {
       <section style={s.hero}>
         <p style={s.eyebrow}>POST MANAGEMENT</p>
         <h1 style={s.h1}>Manage Posts</h1>
-        <p style={s.text}>Search, filter, sort, view, edit and delete posts professionally.</p>
+        <p style={s.text}>
+          Search, filter, sort, view, edit and delete posts professionally.
+        </p>
       </section>
 
       <section style={s.toolbar}>
-        <input style={s.input} placeholder="Search by title..." value={search}
-          onChange={(e) => setSearch(e.target.value)} />
+        <input
+          style={s.input}
+          placeholder="Search by title..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
         <select style={s.input} value={author} onChange={(e) => setAuthor(e.target.value)}>
-          {authors.map((a) => <option key={a} value={a}>{a === "all" ? "All Authors" : a}</option>)}
+          {authors.map((a) => (
+            <option key={a} value={a}>
+              {a === "all" ? "All Authors" : a}
+            </option>
+          ))}
         </select>
 
         <select style={s.input} value={tag} onChange={(e) => setTag(e.target.value)}>
-          {tags.map((t) => <option key={t} value={t}>{t === "all" ? "All Tags" : t}</option>)}
+          {tags.map((t) => (
+            <option key={t} value={t}>
+              {t === "all" ? "All Tags" : t}
+            </option>
+          ))}
         </select>
 
         <select style={s.input} value={sort} onChange={(e) => setSort(e.target.value)}>
@@ -112,48 +143,39 @@ export default function PostList() {
           <option value="title">Title A-Z</option>
         </select>
 
-        <button style={s.btn} onClick={() => { setSearch(""); setAuthor("all"); setTag("all"); setSort("newest"); }}>
+        <button
+          style={s.btn}
+          onClick={() => {
+            setSearch("");
+            setAuthor("all");
+            setTag("all");
+            setSort("newest");
+          }}
+        >
           Clear
         </button>
       </section>
 
       {filtered.length === 0 ? (
-       <div style={{
-  textAlign:"center",
-  padding:50,
-  borderRadius:22,
-  background:"rgba(15,23,42,.78)",
-  color:"#94a3b8"
-}}>
-  <h2 style={{color:"#fff"}}>No Posts Found</h2>
-
-  <p>Try changing your filters or create a new post.</p>
-</div>
+        <div style={s.empty}>
+          <h2 style={{ color: "#fff" }}>No Posts Found</h2>
+          <p>Try changing your filters or create a new post.</p>
+        </div>
       ) : (
         <section style={s.grid}>
           {filtered.map((post) => (
-            <PostCard key={post.id} post={post} onDelete={() => deletePost(post.id)} />
+            <PostCard
+              key={post.id}
+              post={post}
+              onDelete={() => deletePost(post.id)}
+            />
           ))}
         </section>
       )}
-      <button
-style={{
-  position:"fixed",
-  right:28,
-  bottom:28,
-  width:65,
-  height:65,
-  borderRadius:"50%",
-  border:"none",
-  background:"linear-gradient(135deg,#0891b2,#14b8a6)",
-  color:"#fff",
-  fontSize:32,
-  cursor:"pointer",
-  boxShadow:"0 20px 40px rgba(20,184,166,.3)"
-}}
->
-+
-</button>
+
+      <button style={s.fab} onClick={() => navigate("/posts/new")}>
+        +
+      </button>
     </main>
   );
 }
