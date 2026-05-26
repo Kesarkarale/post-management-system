@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./auth/AuthContext";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 export default function App() {
   const { user } = useAuth();
@@ -85,7 +86,14 @@ export default function App() {
             </ProtectedRoute>
             }
           />
-        
+        <Route
+  path="/settings"
+  element={
+    <ProtectedRoute>
+      <Settings />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </>
   );
