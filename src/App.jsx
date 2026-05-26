@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./auth/AuthContext";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const { user } = useAuth();
@@ -75,6 +76,16 @@ export default function App() {
         />
 
         <Route path="*" element={<NotFound />} />
+      
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+            <Profile />
+            </ProtectedRoute>
+            }
+          />
+        
       </Routes>
     </>
   );
