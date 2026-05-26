@@ -11,15 +11,15 @@ export default function Dashboard() {
   const latest = posts[0];
 
   const s = {
-    page: {
-      minHeight: "100vh",
-      background:
-        "radial-gradient(circle at top left, rgba(34,211,238,.12), transparent 28%), #020617",
-      fontFamily: "Inter, Arial, sans-serif",
-      color: "#e2e8f0"
-      overflow:"hidden",
-     position:"relative"
-    },
+   page: {
+  minHeight: "100vh",
+  background:
+    "radial-gradient(circle at top left, rgba(34,211,238,.12), transparent 28%), #020617",
+  fontFamily: "Inter, Arial, sans-serif",
+  color: "#e2e8f0",
+  overflow:"hidden",
+  position:"relative"
+},
     wrap: {
       width: "min(1180px,92%)",
       margin: "auto",
