@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -84,7 +85,7 @@ export default function Header() {
         <NavLink to="/posts" style={s.link}>Posts</NavLink>
         <NavLink to="/posts/new" style={s.create}>Create Post</NavLink>
       </nav>
-
+<ThemeToggle />
       <div style={s.userBox}>
         <div>
           <div>{user?.name}</div>
