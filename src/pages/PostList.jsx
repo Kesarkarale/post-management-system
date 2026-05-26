@@ -67,14 +67,16 @@ function confirmDelete() {
       gap: 14,
       marginBottom: 24
     },
-    input: {
-      padding: "15px 16px",
-      borderRadius: 13,
-      border: "1px solid rgba(148,163,184,.16)",
-      background: "rgba(2,6,23,.55)",
-      color: "#fff",
-      outline: "none"
-    },
+   input: {
+     padding: "15px 16px",
+     borderRadius: 13,
+     border: "1px solid rgba(148,163,184,.16)",
+     background: "rgba(2,6,23,.55)",
+     color: "#fff",
+     outline: "none",
+     transition: ".25s",
+     transform: "scale(1)"
+  },
     btn: {
       border: "1px solid rgba(148,163,184,.14)",
       borderRadius: 13,
@@ -122,13 +124,22 @@ function confirmDelete() {
       </section>
 
       <section style={s.toolbar}>
-        <input
-          style={s.input}
-          placeholder="Search by title..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
+      <input
+        style={s.input}
+        placeholder="Search by title..."
+        value={search}
+        onFocus={(e) => {
+        e.target.style.transform = "scale(1.03)";
+        e.target.style.border = "1px solid #22d3ee";
+        }}
+        onBlur={(e) => {
+        e.target.style.transform = "scale(1)";
+         e.target.style.border =
+         "1px solid rgba(148,163,184,.16)";
+          }}
+         onChange={(e) => setSearch(e.target.value)}
+         />
+        
         <select style={s.input} value={author} onChange={(e) => setAuthor(e.target.value)}>
           {authors.map((a) => (
             <option key={a} value={a}>
