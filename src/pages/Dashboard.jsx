@@ -3,6 +3,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { useAuth } from "../auth/AuthContext";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import Footer from "../components/Footer";
 
 export default function Dashboard() {
   const [posts] = useLocalStorage("posts");
@@ -10,6 +11,8 @@ export default function Dashboard() {
 
   const [loading, setLoading] = useState(true);
   const [time, setTime] = useState(new Date());
+  const [sidebar, setSidebar] = useState(true);
+  const [notify, setNotify] = useState(false);
 
   const authors = new Set(posts.map((p) => p.author));
   const tags = new Set(posts.flatMap((p) => p.tags));
@@ -81,9 +84,10 @@ export default function Dashboard() {
       width: "min(1400px,95%)",
       margin: "auto",
       display: "grid",
-      gridTemplateColumns: "280px 1fr",
+      gridTemplateColumns: sidebar ? "280px 1fr" : "90px 1fr",
       gap: 24,
-      padding: "30px 0"
+      padding: "30px 0",
+      transition: ".3s"
     },
 
     sidebar: {
@@ -100,7 +104,8 @@ export default function Dashboard() {
     brand: {
       fontSize: 34,
       fontWeight: 900,
-      marginBottom: 30
+      marginBottom: 30,
+      color: "#fff"
     },
 
     cyan: {
@@ -124,7 +129,8 @@ export default function Dashboard() {
 
     content: {
       display: "grid",
-      gap: 24
+      gap: 24,
+      position: "relative"
     },
 
     hero: {
@@ -218,7 +224,8 @@ export default function Dashboard() {
       background: "rgba(2,6,23,.45)",
       color: "#fff",
       textDecoration: "none",
-      fontWeight: 800
+      fontWeight: 800,
+      transition: ".3s"
     },
 
     progressWrap: {
@@ -277,20 +284,180 @@ export default function Dashboard() {
         <div style={s.layout}>
           <aside style={s.sidebar}>
             <div style={s.brand}>
-              Post<span style={s.cyan}>Pilot</span>
+              {sidebar ? (
+                <>
+                  Post<span style={s.cyan}>Pilot</span>
+                </>
+              ) : (
+                "P"
+              )}
             </div>
 
             <div style={s.menu}>
-              <Link style={s.nav} to="/">🏠 Dashboard</Link>
-              <Link style={s.nav} to="/posts">📚 Posts</Link>
-              <Link style={s.nav} to="/posts/new">➕ Create Post</Link>
-              <Link style={s.nav} to="/profile">👤 Profile</Link>
+              <Link style={s.nav} to="/">
+                {sidebar ? "🏠 Dashboard" : "🏠"}
+              </Link>
+
+              <Link style={s.nav} to="/posts">
+                {sidebar ? "📚 Posts" : "📚"}
+              </Link>
+
+              <Link style={s.nav} to="/posts/new">
+                {sidebar ? "➕ Create" : "➕"}
+              </Link>
+
+              <Link style={s.nav} to="/profile">
+                {sidebar ? "👤 Profile" : "👤"}
+              </Link>
             </div>
           </aside>
 
           <section style={s.content}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 20,
+                flexWrap: "wrap"
+              }}
+            >
+              <button
+                onClick={() => setSidebar(!sidebar)}
+                style={{
+                  border: "none",
+                  background: "rgba(15,23,42,.8)",
+                  color: "#fff",
+                  width: 50,
+                  height: 50,
+                  borderRadius: 14,
+                  cursor: "pointer",
+                  fontSize: 22
+                }}
+              >
+                ☰
+              </button>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 14,
+                  alignItems: "center"
+                }}
+              >
+                <button
+                  onClick={() => setNotify(!notify)}
+                  style={{
+                    position: "relative",
+                    border: "none",
+                    background: "rgba(15,23,42,.8)",
+                    width: 50,
+                    height: 50,
+                    borderRadius: 14,
+                    color: "#fff",
+                    cursor: "pointer",
+                    fontSize: 20
+                  }}
+                >
+                  🔔
+
+                  <span
+                    style={{
+                      position: "absolute",
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      background: "#22d3ee",
+                      top: 10,
+                      right: 10
+                    }}
+                  />
+                </button>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    background: "rgba(15,23,42,.8)",
+                    padding: "10px 14px",
+                    borderRadius: 14
+                  }}
+                >
+                  <div style={s.avatar}>
+                    {user?.name?.charAt(0)}
+                  </div>
+
+                  <div>
+                    <div style={{ fontWeight: 800 }}>
+                      {user?.name}
+                    </div>
+
+                    <div
+                      style={{
+                        color: "#94a3b8",
+                        fontSize: 13
+                      }}
+                    >
+                      Administrator
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {notify && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 90,
+                  right: 0,
+                  width: 320,
+                  padding: 20,
+                  borderRadius: 20,
+                  background: "rgba(15,23,42,.96)",
+                  border:
+                    "1px solid rgba(148,163,184,.14)",
+                  zIndex: 99,
+                  boxShadow:
+                    "0 30px 60px rgba(0,0,0,.35)"
+                }}
+              >
+                <h3 style={{ marginTop: 0 }}>
+                  Notifications
+                </h3>
+
+                <div
+                  style={{
+                    color: "#94a3b8",
+                    marginBottom: 14
+                  }}
+                >
+                  🚀 Dashboard updated successfully
+                </div>
+
+                <div
+                  style={{
+                    color: "#94a3b8",
+                    marginBottom: 14
+                  }}
+                >
+                  📝 New post system added
+                </div>
+
+                <div style={{ color: "#94a3b8" }}>
+                  🔐 Authentication active
+                </div>
+              </div>
+            )}
+
             <div style={s.hero}>
-              <p style={{ color: "#22d3ee", fontWeight: 900 }}>
+              <p
+                style={{
+                  color: "#22d3ee",
+                  fontWeight: 900
+                }}
+              >
                 PROFESSIONAL CMS
               </p>
 
@@ -299,8 +466,9 @@ export default function Dashboard() {
               </h1>
 
               <p style={s.text}>
-                Manage content, analytics, posts and user activity
-                from one professional dashboard interface.
+                Manage content, analytics, posts and
+                user activity from one professional
+                dashboard interface.
               </p>
 
               <div style={s.clock}>
@@ -340,15 +508,24 @@ export default function Dashboard() {
               <div style={s.panel}>
                 <h2 style={s.h2}>Quick Actions</h2>
 
-                <Link style={s.action} to="/posts/new">
+                <Link
+                  style={s.action}
+                  to="/posts/new"
+                >
                   ➕ Create New Post
                 </Link>
 
-                <Link style={s.action} to="/posts">
+                <Link
+                  style={s.action}
+                  to="/posts"
+                >
                   📚 Manage Posts
                 </Link>
 
-                <Link style={s.action} to="/posts">
+                <Link
+                  style={s.action}
+                  to="/posts"
+                >
                   🔎 Search Content
                 </Link>
               </div>
@@ -357,7 +534,8 @@ export default function Dashboard() {
                 <h2 style={s.h2}>Project Progress</h2>
 
                 <p style={s.text}>
-                  Your CMS system is almost production ready.
+                  Your CMS system is almost production
+                  ready.
                 </p>
 
                 <div style={s.progressWrap}>
@@ -366,7 +544,12 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <p style={{ marginTop: 12, color: "#22d3ee" }}>
+                <p
+                  style={{
+                    marginTop: 12,
+                    color: "#22d3ee"
+                  }}
+                >
                   78% Completed
                 </p>
               </div>
@@ -402,20 +585,75 @@ export default function Dashboard() {
                 <h2 style={s.h2}>Recent Users</h2>
 
                 <div style={s.users}>
-                  {[1,2,3].map((u) => (
+                  {[1, 2, 3].map((u) => (
                     <div key={u} style={s.userCard}>
                       <div style={s.avatar}>
                         {user?.name?.charAt(0)}
                       </div>
 
                       <div>
-                        <div style={{ fontWeight: 800 }}>
+                        <div
+                          style={{
+                            fontWeight: 800
+                          }}
+                        >
                           {user?.name}
                         </div>
 
-                        <div style={{ color: "#94a3b8" }}>
+                        <div
+                          style={{
+                            color: "#94a3b8"
+                          }}
+                        >
                           Active Member
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={s.panel}>
+                <h2 style={s.h2}>
+                  Activity Timeline
+                </h2>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 18,
+                    marginTop: 24
+                  }}
+                >
+                  {[
+                    "User logged in",
+                    "Dashboard loaded",
+                    "Posts synced",
+                    "Analytics updated"
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        display: "flex",
+                        gap: 14,
+                        alignItems: "center"
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: "50%",
+                          background: "#22d3ee"
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          color: "#cbd5e1"
+                        }}
+                      >
+                        {item}
                       </div>
                     </div>
                   ))}
@@ -424,6 +662,8 @@ export default function Dashboard() {
             </section>
           </section>
         </div>
+
+        <Footer />
       </main>
     </>
   );
