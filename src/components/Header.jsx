@@ -84,6 +84,7 @@ export default function Header() {
         <NavLink to="/" style={s.link}>Dashboard</NavLink>
         <NavLink to="/posts" style={s.link}>Posts</NavLink>
         <NavLink to="/posts/new" style={s.create}>Create Post</NavLink>
+        <NavLink to="/profile" style={s.link}>Profile</NavLink>
       </nav>
 <ThemeToggle />
       <div style={s.userBox}>
