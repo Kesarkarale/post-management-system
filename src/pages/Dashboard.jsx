@@ -17,6 +17,8 @@ export default function Dashboard() {
         "radial-gradient(circle at top left, rgba(34,211,238,.12), transparent 28%), #020617",
       fontFamily: "Inter, Arial, sans-serif",
       color: "#e2e8f0"
+      overflow:"hidden",
+     position:"relative"
     },
     wrap: {
       width: "min(1180px,92%)",
@@ -150,6 +152,27 @@ export default function Dashboard() {
 
   return (
     <main style={s.page}>
+      <div style={{
+       position:"absolute",
+   width:500,
+  height:500,
+  borderRadius:"50%",
+  background:"rgba(34,211,238,.08)",
+  filter:"blur(120px)",
+  top:-150,
+  left:-150
+}} />
+
+<div style={{
+  position:"absolute",
+  width:450,
+  height:450,
+  borderRadius:"50%",
+  background:"rgba(20,184,166,.08)",
+  filter:"blur(120px)",
+  bottom:-150,
+  right:-150
+}} />
       <div style={s.wrap}>
         <section style={s.hero}>
           <p style={s.eyebrow}>DASHBOARD</p>
