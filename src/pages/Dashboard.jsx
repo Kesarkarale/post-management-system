@@ -309,6 +309,10 @@ export default function Dashboard() {
               <Link style={s.nav} to="/profile">
                 {sidebar ? "👤 Profile" : "👤"}
               </Link>
+
+              <Link style={s.nav} to="/settings">
+               {sidebar ? "⚙️ Settings" : "⚙️"}
+              </Link>
             </div>
           </aside>
 
