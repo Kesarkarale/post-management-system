@@ -9,6 +9,7 @@ export default function Dashboard() {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
+  const [time, setTime] = useState(new Date());
 
   const authors = new Set(posts.map((p) => p.author));
   const tags = new Set(posts.flatMap((p) => p.tags));
@@ -22,6 +23,14 @@ export default function Dashboard() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const clock = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(clock);
+  }, []);
+
   const animations = `
     @keyframes fadeUp{
       from{
@@ -31,18 +40,6 @@ export default function Dashboard() {
       to{
         opacity:1;
         transform:translateY(0);
-      }
-    }
-
-    @keyframes pulse{
-      0%{
-        transform:scale(1);
-      }
-      50%{
-        transform:scale(1.05);
-      }
-      100%{
-        transform:scale(1);
       }
     }
   `;
@@ -58,163 +55,212 @@ export default function Dashboard() {
       position: "relative"
     },
 
-    wrap: {
-      width: "min(1180px,92%)",
+    glow1: {
+      position: "absolute",
+      width: 500,
+      height: 500,
+      borderRadius: "50%",
+      background: "rgba(34,211,238,.08)",
+      filter: "blur(120px)",
+      top: -150,
+      left: -150
+    },
+
+    glow2: {
+      position: "absolute",
+      width: 450,
+      height: 450,
+      borderRadius: "50%",
+      background: "rgba(20,184,166,.08)",
+      filter: "blur(120px)",
+      bottom: -150,
+      right: -150
+    },
+
+    layout: {
+      width: "min(1400px,95%)",
       margin: "auto",
-      padding: "34px 0",
-      position: "relative",
-      zIndex: 2
+      display: "grid",
+      gridTemplateColumns: "280px 1fr",
+      gap: 24,
+      padding: "30px 0"
+    },
+
+    sidebar: {
+      background: "rgba(15,23,42,.78)",
+      border: "1px solid rgba(148,163,184,.12)",
+      borderRadius: 26,
+      padding: 24,
+      height: "fit-content",
+      position: "sticky",
+      top: 100,
+      boxShadow: "0 25px 55px rgba(0,0,0,.28)"
+    },
+
+    brand: {
+      fontSize: 34,
+      fontWeight: 900,
+      marginBottom: 30
+    },
+
+    cyan: {
+      color: "#22d3ee"
+    },
+
+    menu: {
+      display: "grid",
+      gap: 14
+    },
+
+    nav: {
+      padding: 15,
+      borderRadius: 15,
+      background: "rgba(2,6,23,.45)",
+      color: "#cbd5e1",
+      textDecoration: "none",
+      fontWeight: 800,
+      transition: ".3s"
+    },
+
+    content: {
+      display: "grid",
+      gap: 24
     },
 
     hero: {
-      padding: 46,
-      borderRadius: 26,
-      marginBottom: 24,
+      padding: 42,
+      borderRadius: 28,
       background:
         "linear-gradient(135deg,rgba(8,145,178,.18),rgba(20,184,166,.10)),rgba(15,23,42,.78)",
       border: "1px solid rgba(148,163,184,.14)",
-      boxShadow: "0 25px 55px rgba(0,0,0,.28)",
-      animation: "fadeUp .7s ease"
+      animation: "fadeUp .7s ease",
+      boxShadow: "0 25px 55px rgba(0,0,0,.28)"
     },
 
-    eyebrow: {
-      color: "#22d3ee",
-      letterSpacing: 2,
-      fontWeight: 900,
-      margin: 0
-    },
-
-    h1: {
+    title: {
       fontSize: 52,
-      color: "#f8fafc",
-      margin: "12px 0"
+      margin: "10px 0",
+      color: "#fff"
     },
 
     text: {
       color: "#94a3b8",
-      lineHeight: 1.7,
-      maxWidth: 720
+      lineHeight: 1.7
+    },
+
+    clock: {
+      marginTop: 24,
+      display: "inline-block",
+      padding: "12px 18px",
+      borderRadius: 14,
+      background: "rgba(2,6,23,.5)",
+      border: "1px solid rgba(148,163,184,.14)",
+      color: "#22d3ee",
+      fontWeight: 900
     },
 
     stats: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))",
-      gap: 18,
-      marginBottom: 24
+      gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))",
+      gap: 20
     },
 
     card: {
-      background: "rgba(15,23,42,.80)",
-      border: "1px solid rgba(148,163,184,.14)",
-      borderRadius: 22,
       padding: 24,
+      borderRadius: 24,
+      background: "rgba(15,23,42,.82)",
+      border: "1px solid rgba(148,163,184,.12)",
       boxShadow: "0 22px 45px rgba(0,0,0,.25)",
       transition: ".3s",
-      cursor: "pointer",
-      backdropFilter: "blur(10px)"
+      cursor: "pointer"
     },
 
     icon: {
-      width: 42,
-      height: 42,
-      borderRadius: 14,
-      display: "grid",
-      placeItems: "center",
-      background: "rgba(34,211,238,.12)",
-      color: "#22d3ee",
-      fontSize: 22,
-      marginBottom: 14,
-      animation: "pulse 2s infinite"
+      fontSize: 30,
+      marginBottom: 14
     },
 
     num: {
-      fontSize: 36,
-      color: "#f8fafc",
-      margin: 0
+      fontSize: 40,
+      margin: 0,
+      color: "#fff"
     },
 
     label: {
       color: "#94a3b8",
-      fontWeight: 800,
-      margin: "6px 0 0"
+      fontWeight: 700
     },
 
     grid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+      gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))",
       gap: 22
     },
 
     panel: {
-      background: "rgba(15,23,42,.80)",
-      border: "1px solid rgba(148,163,184,.14)",
-      borderRadius: 22,
       padding: 26,
-      boxShadow: "0 22px 45px rgba(0,0,0,.25)",
-      transition: ".3s",
-      backdropFilter: "blur(10px)"
+      borderRadius: 24,
+      background: "rgba(15,23,42,.82)",
+      border: "1px solid rgba(148,163,184,.12)",
+      boxShadow: "0 22px 45px rgba(0,0,0,.25)"
     },
 
     h2: {
-      color: "#f8fafc",
+      color: "#fff",
       marginTop: 0
     },
 
     action: {
       display: "block",
       padding: 16,
-      borderRadius: 15,
-      background: "rgba(2,6,23,.48)",
-      color: "#e2e8f0",
-      border: "1px solid rgba(148,163,184,.12)",
-      fontWeight: 900,
-      textDecoration: "none",
+      borderRadius: 14,
       marginBottom: 14,
-      transition: ".25s"
-    },
-
-    primary: {
-      display: "inline-block",
-      background: "linear-gradient(135deg,#0891b2,#14b8a6)",
-      padding: "12px 18px",
-      borderRadius: 13,
+      background: "rgba(2,6,23,.45)",
       color: "#fff",
-      fontWeight: 900,
       textDecoration: "none",
-      marginTop: 10,
-      transition: ".25s"
+      fontWeight: 800
     },
 
-    activity: {
-      display: "grid",
-      gap: 12,
+    progressWrap: {
       marginTop: 18
     },
 
-    activityItem: {
-      padding: 14,
-      borderRadius: 14,
-      background: "rgba(2,6,23,.45)",
-      border: "1px solid rgba(148,163,184,.10)",
-      color: "#94a3b8"
-    },
-
-    barWrap: {
-      height: 220,
-      borderRadius: 18,
-      background:
-        "linear-gradient(180deg,rgba(34,211,238,.20),rgba(15,23,42,.20))",
-      padding: 18,
-      display: "flex",
-      alignItems: "end",
-      gap: 12
-    },
-
-    bar: {
-      flex: 1,
+    progressBar: {
+      height: 14,
       borderRadius: 999,
-      background: "linear-gradient(180deg,#22d3ee,#0f766e)",
-      transition: ".3s"
+      background: "rgba(255,255,255,.08)",
+      overflow: "hidden"
+    },
+
+    fill: {
+      width: "78%",
+      height: "100%",
+      background: "linear-gradient(90deg,#22d3ee,#14b8a6)"
+    },
+
+    users: {
+      display: "grid",
+      gap: 14,
+      marginTop: 20
+    },
+
+    userCard: {
+      display: "flex",
+      alignItems: "center",
+      gap: 14,
+      padding: 14,
+      borderRadius: 16,
+      background: "rgba(2,6,23,.45)"
+    },
+
+    avatar: {
+      width: 48,
+      height: 48,
+      borderRadius: "50%",
+      display: "grid",
+      placeItems: "center",
+      background: "linear-gradient(135deg,#0891b2,#14b8a6)",
+      fontWeight: 900
     }
   };
 
@@ -225,270 +271,157 @@ export default function Dashboard() {
       <style>{animations}</style>
 
       <main style={s.page}>
-        <div
-          style={{
-            position: "absolute",
-            width: 500,
-            height: 500,
-            borderRadius: "50%",
-            background: "rgba(34,211,238,.08)",
-            filter: "blur(120px)",
-            top: -150,
-            left: -150
-          }}
-        />
+        <div style={s.glow1}></div>
+        <div style={s.glow2}></div>
 
-        <div
-          style={{
-            position: "absolute",
-            width: 450,
-            height: 450,
-            borderRadius: "50%",
-            background: "rgba(20,184,166,.08)",
-            filter: "blur(120px)",
-            bottom: -150,
-            right: -150
-          }}
-        />
-
-        <div style={s.wrap}>
-          <section style={s.hero}>
-            <p style={s.eyebrow}>DASHBOARD</p>
-
-            <h1 style={s.h1}>
-              Hello, {user?.name || "User"}
-            </h1>
-
-            <p style={s.text}>
-              Welcome to your professional post management system.
-              Manage posts, authors, tags and content activity
-              from one clean dashboard.
-            </p>
-          </section>
-
-          <section style={s.stats}>
-            <div
-              style={s.card}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px)";
-                e.currentTarget.style.boxShadow =
-                  "0 30px 60px rgba(34,211,238,.18)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-                e.currentTarget.style.boxShadow =
-                  "0 22px 45px rgba(0,0,0,.25)";
-              }}
-            >
-              <div style={s.icon}>📝</div>
-              <h3 style={s.num}>{posts.length}</h3>
-              <p style={s.label}>Total Posts</p>
+        <div style={s.layout}>
+          <aside style={s.sidebar}>
+            <div style={s.brand}>
+              Post<span style={s.cyan}>Pilot</span>
             </div>
 
-            <div
-              style={s.card}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px)";
-                e.currentTarget.style.boxShadow =
-                  "0 30px 60px rgba(34,211,238,.18)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-                e.currentTarget.style.boxShadow =
-                  "0 22px 45px rgba(0,0,0,.25)";
-              }}
-            >
-              <div style={s.icon}>👤</div>
-              <h3 style={s.num}>{authors.size}</h3>
-              <p style={s.label}>Authors</p>
+            <div style={s.menu}>
+              <Link style={s.nav} to="/">🏠 Dashboard</Link>
+              <Link style={s.nav} to="/posts">📚 Posts</Link>
+              <Link style={s.nav} to="/posts/new">➕ Create Post</Link>
+              <Link style={s.nav} to="/profile">👤 Profile</Link>
             </div>
+          </aside>
 
-            <div
-              style={s.card}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px)";
-                e.currentTarget.style.boxShadow =
-                  "0 30px 60px rgba(34,211,238,.18)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-                e.currentTarget.style.boxShadow =
-                  "0 22px 45px rgba(0,0,0,.25)";
-              }}
-            >
-              <div style={s.icon}>🏷️</div>
-              <h3 style={s.num}>{tags.size}</h3>
-              <p style={s.label}>Tags</p>
-            </div>
+          <section style={s.content}>
+            <div style={s.hero}>
+              <p style={{ color: "#22d3ee", fontWeight: 900 }}>
+                PROFESSIONAL CMS
+              </p>
 
-            <div
-              style={s.card}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px)";
-                e.currentTarget.style.boxShadow =
-                  "0 30px 60px rgba(34,211,238,.18)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-                e.currentTarget.style.boxShadow =
-                  "0 22px 45px rgba(0,0,0,.25)";
-              }}
-            >
-              <div style={s.icon}>⚡</div>
-              <h3 style={s.num}>
-                {latest ? "Active" : "Empty"}
-              </h3>
-              <p style={s.label}>Project Status</p>
-            </div>
-          </section>
+              <h1 style={s.title}>
+                Welcome back, {user?.name}
+              </h1>
 
-          <section style={s.grid}>
-            <div
-              style={s.panel}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-6px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-              }}
-            >
-              <h2 style={s.h2}>Quick Actions</h2>
+              <p style={s.text}>
+                Manage content, analytics, posts and user activity
+                from one professional dashboard interface.
+              </p>
 
-              <Link
-                style={s.action}
-                to="/posts/new"
-              >
-                ➕ Create New Post
-              </Link>
-
-              <Link
-                style={s.action}
-                to="/posts"
-              >
-                📚 Manage Posts
-              </Link>
-
-              <Link
-                style={s.action}
-                to="/posts"
-              >
-                🔎 Search Content
-              </Link>
-            </div>
-
-            <div
-              style={s.panel}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-6px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-              }}
-            >
-              <h2 style={s.h2}>Latest Post</h2>
-
-              {latest ? (
-                <>
-                  <h3 style={{ color: "#f8fafc" }}>
-                    {latest.title}
-                  </h3>
-
-                  <p style={s.text}>
-                    {latest.content.slice(0, 150)}...
-                  </p>
-
-                  <Link
-                    style={s.primary}
-                    to={`/posts/${latest.id}`}
-                  >
-                    View Latest Post
-                  </Link>
-                </>
-              ) : (
-                <p style={s.text}>
-                  No posts available yet.
-                  Create your first post.
-                </p>
-              )}
-            </div>
-
-            <div
-              style={s.panel}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-6px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-              }}
-            >
-              <h2 style={s.h2}>Recent Activity</h2>
-
-              <div style={s.activity}>
-                <div style={s.activityItem}>
-                  ✅ Dashboard opened successfully
-                </div>
-
-                <div style={s.activityItem}>
-                  📚 Posts loaded from localStorage
-                </div>
-
-                <div style={s.activityItem}>
-                  🔐 User authenticated
-                </div>
-
-                <div style={s.activityItem}>
-                  🚀 Project ready for deployment
-                </div>
+              <div style={s.clock}>
+                🕒 {time.toLocaleTimeString()}
               </div>
             </div>
 
-            <div
-              style={s.panel}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-6px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-              }}
-            >
-              <h2 style={s.h2}>Content Analytics</h2>
+            <section style={s.stats}>
+              {[
+                ["📝", posts.length, "Total Posts"],
+                ["👤", authors.size, "Authors"],
+                ["🏷️", tags.size, "Tags"],
+                ["⚡", "99%", "Performance"]
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  style={s.card}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform =
+                      "translateY(-8px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform =
+                      "translateY(0)";
+                  }}
+                >
+                  <div style={s.icon}>{item[0]}</div>
 
-              <div style={s.barWrap}>
-                {[45, 70, 55, 85, 60, 95, 75].map(
-                  (h, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        ...s.bar,
-                        height: `${h}%`
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = ".8";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.opacity = "1";
-                      }}
-                    />
-                  )
+                  <h2 style={s.num}>{item[1]}</h2>
+
+                  <p style={s.label}>{item[2]}</p>
+                </div>
+              ))}
+            </section>
+
+            <section style={s.grid}>
+              <div style={s.panel}>
+                <h2 style={s.h2}>Quick Actions</h2>
+
+                <Link style={s.action} to="/posts/new">
+                  ➕ Create New Post
+                </Link>
+
+                <Link style={s.action} to="/posts">
+                  📚 Manage Posts
+                </Link>
+
+                <Link style={s.action} to="/posts">
+                  🔎 Search Content
+                </Link>
+              </div>
+
+              <div style={s.panel}>
+                <h2 style={s.h2}>Project Progress</h2>
+
+                <p style={s.text}>
+                  Your CMS system is almost production ready.
+                </p>
+
+                <div style={s.progressWrap}>
+                  <div style={s.progressBar}>
+                    <div style={s.fill}></div>
+                  </div>
+                </div>
+
+                <p style={{ marginTop: 12, color: "#22d3ee" }}>
+                  78% Completed
+                </p>
+              </div>
+
+              <div style={s.panel}>
+                <h2 style={s.h2}>Latest Post</h2>
+
+                {latest ? (
+                  <>
+                    <h3 style={{ color: "#fff" }}>
+                      {latest.title}
+                    </h3>
+
+                    <p style={s.text}>
+                      {latest.content.slice(0, 120)}...
+                    </p>
+
+                    <Link
+                      style={s.action}
+                      to={`/posts/${latest.id}`}
+                    >
+                      Open Post
+                    </Link>
+                  </>
+                ) : (
+                  <p style={s.text}>
+                    No posts available yet.
+                  </p>
                 )}
               </div>
-            </div>
+
+              <div style={s.panel}>
+                <h2 style={s.h2}>Recent Users</h2>
+
+                <div style={s.users}>
+                  {[1,2,3].map((u) => (
+                    <div key={u} style={s.userCard}>
+                      <div style={s.avatar}>
+                        {user?.name?.charAt(0)}
+                      </div>
+
+                      <div>
+                        <div style={{ fontWeight: 800 }}>
+                          {user?.name}
+                        </div>
+
+                        <div style={{ color: "#94a3b8" }}>
+                          Active Member
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
           </section>
         </div>
       </main>
